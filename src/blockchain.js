@@ -123,14 +123,14 @@ class Blockchain {
             let timeDiff = currentTime - messageTime
             // // 60 secs X 5
             if (timeDiff > 300){
-                reject(new Error("More than 5 minutes"))
+                reject(new Error("More than 5 minutes has passed"))
             }
 
             let isVerify = bitcoinMessage.verify(message, address, signature)
             if (isVerify){
                 reject(new Error("bitcoin message not verify"))
             }
-            await self._addBlock(new BlockClass.Block(star))
+            await self._addBlock(new BlockClass.Block({owner, star}))
             resolve()
         });
     }
@@ -180,7 +180,13 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-
+            self.chain.forEach((block) => {
+                let data = block.getBData()
+                if (data.owner === address) {
+                    stars.push(block)
+                }
+            })
+            resolve(stars)
         });
     }
 

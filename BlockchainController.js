@@ -25,7 +25,7 @@ class BlockchainController {
         this.app.get("/validateChain", async (req, res) => {
             try {
                 await this.blockchain.validateChain();
-                return res.status(200)
+                return res.status(200).send("Validated")
             } catch (e) {
                 return res.status(400).send(e.message)
             }

@@ -1,5 +1,40 @@
-GET http://localhost:8000/block/height/0
+@address=ADDRESS
+@signature=SIGNATURE
+@message={{address}}:1618248347:starRegistry
+###
+
+GET http://localhost:8000/block/height/4
 
 ###
 
-GET http://localhost:8000/block/validate/0
+POST http://localhost:8000/requestValidation
+Content-Type: application/json
+
+{
+    "address": "{{address}}"
+}
+
+###
+POST http://localhost:8000/submitStar
+Content-Type: application/json
+
+{
+    "address": "{{address}}",
+    "signature": "{{signature}}",
+    "message": "{{message}}",
+    "star": {
+        "dec": "68' 52' 66.9",
+        "ra": "16h 33m 1.0s",
+        "story": "This is JT COOL"
+    }
+}
+
+###
+GET http://localhost:8000/blocks/{{address}}
+
+
+###
+GET http://localhost:8000/block/hash/007d459a922ce16ea20bc86a96bade0c6076f5ab47d9bc42d08b00087566a2af/
+
+###
+GET http://localhost:8000/validateChain

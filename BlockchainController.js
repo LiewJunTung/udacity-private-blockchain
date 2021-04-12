@@ -22,20 +22,10 @@ class BlockchainController {
     }
 
     testValidate() {
-        this.app.get("/block/validate/:height", async (req, res) => {
+        this.app.get("/validateChain", async (req, res) => {
             try {
-                if (req.params.height) {
-                    const height = parseInt(req.params.height);
-                    let block = await this.blockchain.getBlockByHeight(height);
-                    if (block) {
-                        let result = await block.getBData();
-                        return res.status(200).json({ "result": result });
-                    } else {
-                        return res.status(404).send("Block Not Found!");
-                    }
-                } else {
-                    return res.status(404).send("Block Not Found! Review the Parameters!");
-                }
+                await this.blockchain.validateChain();
+                return res.status(200)
             } catch (e) {
                 return res.status(400).send(e.message)
             }
@@ -94,7 +84,7 @@ class BlockchainController {
                         return res.status(500).send("An error happened!");
                     }
                 } catch (error) {
-                    return res.status(500).send(error);
+                    return res.status(500).send(error.message);
                 }
             } else {
                 return res.status(500).send("Check the Body Parameter!");

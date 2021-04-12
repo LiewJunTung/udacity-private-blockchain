@@ -66,7 +66,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             try {
                 let chain = self.chain
-                let previousBlockHash = ""
+                let previousBlockHash = null
                 if (self.height > 0) {
                     previousBlockHash = chain[chain.length - 1].previousBlockHash;
                 }
@@ -130,7 +130,7 @@ class Blockchain {
             if (isVerify){
                 reject(new Error("bitcoin message not verify"))
             }
-            await self._addBlock(new BlockClass.Block({owner, star}))
+            await self._addBlock(new BlockClass.Block({"owner": address, star}))
             resolve()
         });
     }
